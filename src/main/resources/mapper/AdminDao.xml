@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenshuai.dao.AdminDao">
+    <resultMap id="adminMap" type="Admin">
+        <id column="id" property="id" ></id>
+        <result column="ADMIN_NAME" property="adminName"></result>
+        <result column="ADMIN_PASSWORD" property="adminPassword"></result>
+        <result column="ADMIN_LOGIN_TIME" property="adminLoginTime"></result>
+        <result column="ADMIN_MODIFIED_TIME" property="adminModifiedTime"></result>
+        <result column="ADMIN_CREATE_TIME" property="adminCreateTime"></result>
+    </resultMap>
+
+    <insert id="addAdmin" parameterType="Admin">
+        <selectKey resultType="java.lang.Integer" order="BEFORE" keyProperty="id">
+            <include refid="createId"></include>
+        </selectKey>
+        INSERT INTO ADMIN
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                ID,
+            </if>
+            <if test="adminName!=null">
+                ADMIN_NAME,
+            </if>
+            <if test="adminPassword!=null">
+                ADMIN_PASSWORD,
+            </if>
+            <if test="adminLoginTime!=null">
+                 ADMIN_LOGIN_TIME,
+            </if>
+            <if test="adminModifiedTime!=null">
+                ADMIN_MODIFIED_TIME,
+            </if>
+            <if test="adminCreateTime!=null">
+                ADMIN_CREATE_TIME,
+            </if>
+        </trim>
+
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="adminName!=null">
+                #{adminName},
+            </if>
+            <if test="adminPassword!=null">
+                #{adminPassword}
+            </if>
+            <if test="adminLoginTime!=null">
+                #{adminLoginTime}
+            </if>
+            <if test="adminModifiedTime!=null">
+                #{adminModifiedTime}
+            </if>
+            <if test="adminCreateTime!=null">
+                #{adminCreateTime}
+            </if>
+        </trim>
+    </insert>
+
+
+   <sql id="createId">
+       SELECT ADD_ADMIN_ID_SEQ.nextval FROM dual
+   </sql>
+
+    <sql id="checkId">
+        <where>
+            <choose>
+                <when test="id!=null">
+                    AND id=#{id}
+                </when>
+                <otherwise>
+                    AND 1=2
+                </otherwise>
+            </choose>
+        </where>
+    </sql>
+
+
+    <sql id="queryAdmin">
+        SELECT * FROM ADMIN
+    </sql>
+
+    <select id="findAdminByName" resultMap="adminMap" parameterType="Admin">
+        <include refid="queryAdmin"></include>
+        <where>
+            <choose>
+                <when test="adminName!=null and  adminPassword!=null">
+                    AND ADMIN_NAME=#{adminName} AND ADMIN_PASSWORD=#{adminPassword}
+                </when>
+                <otherwise>
+                    AND 1=2
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+</mapper>

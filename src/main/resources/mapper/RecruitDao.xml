@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenshuai.dao.RecruitDao">
+    <resultMap id="recruitMap" type="Recruit">
+        <id column="id" property="id" ></id>
+        <result column="ADMIN_ID" property="adminId"></result>
+        <result column="RECRUIT_POSITION" property="recruitPosition"></result>
+        <result column="RECRUIT_NUMBER" property="recruitNumber"></result>
+        <result column="RECRUIT_SALARY" property="recruitSalary"></result>
+        <result column="RECRUIT_ITEM" property="recruitItem"></result>
+        <result column="RECRUIT_CONTENT" property="recruitContent"></result>
+        <result column="RECRUIT_INTERVIEW_ADDRESS" property="recruitInterviewAddress"></result>
+        <result column="RECRUIT_CREATE_TIME" property="recruitCreateTime"></result>
+        <result column="RECRUIT_MODIFIED_TIME" property="recruitModifiedTime"></result>
+        <result column="RECRUIT_DEPARTMENT" property="recruitDepartment"></result>
+    </resultMap>
+
+    <insert id="addRecruit" parameterType="Recruit">
+        <selectKey resultType="java.lang.Integer" order="BEFORE" keyProperty="id">
+            <include refid="createId"></include>
+        </selectKey>
+        INSERT INTO RECRUIT
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                ID,
+            </if>
+            <if test="adminId!=null">
+                ADMIN_ID,
+            </if>
+            <if test="recruitPosition!=null">
+                RECRUIT_POSITION,
+            </if>
+            <if test="recruitNumber!=null">
+                RECRUIT_NUMBER,
+            </if>
+            <if test="recruitSalary!=null">
+                RECRUIT_SALARY,
+            </if>
+            <if test="recruitItem!=null">
+                RECRUIT_ITEM,
+            </if>
+            <if test="recruitContent!=null">
+                RECRUIT_CONTENT,
+            </if>
+            <if test="recruitInterviewAddress!=null">
+                RECRUIT_INTERVIEW_ADDRESS,
+            </if>
+            <if test="recruitCreateTime!=null">
+                RECRUIT_CREATE_TIME,
+            </if>
+            <if test="recruitModifiedTime!=null">
+                RECRUIT_MODIFIED_TIME,
+            </if>
+            <if test="recruitDepartment!=null">
+                RECRUIT_DEPARTMENT,
+            </if>
+        </trim>
+
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="adminId!=null">
+                #{adminId},
+            </if>
+            <if test="recruitPosition!=null">
+                #{recruitPosition}
+            </if>
+            <if test="recruitNumber!=null">
+                #{recruitNumber}
+            </if>
+            <if test="recruitSalary!=null">
+                #{recruitSalary}
+            </if>
+            <if test="recruitItem!=null">
+                #{recruitItem}
+            </if>
+            <if test="recruitContent!=null">
+                #{recruitContent}
+            </if>
+            <if test="recruitInterviewAddress!=null">
+                #{recruitInterviewAddress}
+            </if>
+            <if test="recruitCreateTime!=null">
+                #{recruitCreateTime}
+            </if>
+            <if test="recruitModifiedTime!=null">
+                #{recruitModifiedTime}
+            </if>
+            <if test="recruitDepartment!=null">
+                #{recruitDepartment}
+            </if>
+        </trim>
+    </insert>
+
+
+   <sql id="createId">
+       SELECT ADD_RECRUIT_ID_SEQ.nextval FROM dual
+   </sql>
+
+    <sql id="checkId">
+        <where>
+            <choose>
+                <when test="id!=null">
+                    AND id=#{id}
+                </when>
+                <otherwise>
+                    AND 1=2
+                </otherwise>
+            </choose>
+        </where>
+    </sql>
+
+
+    <sql id="queryRecruit">
+        SELECT * FROM ADMIN
+    </sql>
+<!--从数据库表中删除招聘信息的数据-->
+    <select id="deleteRecruit"  parameterType="Recruit">
+       DELETE FROM RECRUIT
+       <include refid="checkId"></include>
+    </select>
+
+</mapper>

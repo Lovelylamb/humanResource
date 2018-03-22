@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenshuai.dao.VisitorDao">
+    <resultMap id="visitorMap" type="Visitor">
+        <id column="id" property="id" ></id>
+        <result column="VISITOR_NAME" property="visitorName"></result>
+        <result column="VISITOR_PASSWORD" property="visitorPassword"></result>
+        <result column="VISITOR_AGE" property="visitorAge"></result>
+        <result column="VISITOR_EMAIL" property="visitorEmail"></result>
+        <result column="VISITOR_PHONE" property="visitorPhone"></result>
+        <result column="VISITOR_TRUE_NAME" property="visitorTrueName"></result>
+        <result column="VISITOR_ADDRESS" property="visitorAddress"></result>
+        <result column="VISITOR_LOGIN_TIME" property="visitorLoginTime"></result>
+        <result column="VISITOR_CREATE_TIME" property="visitorCreateTime"></result>
+        <result column="VISITOR_MODIFIED_TIME" property="visitorModifiedTime"></result>
+    </resultMap>
+
+   <sql id="createId">
+       SELECT ADD_VISITOR_ID_SEQ.nextval FROM dual
+   </sql>
+
+    <sql id="checkId">
+        <where>
+            <choose>
+                <when test="id!=null">
+                    AND id=#{id}
+                </when>
+                <otherwise>
+                    AND 1=2
+                </otherwise>
+            </choose>
+        </where>
+    </sql>
+
+    <insert id="addVisitor" parameterType="Visitor">
+        <selectKey resultType="java.lang.Integer" order="BEFORE" keyProperty="id">
+            <include refid="createId"></include>
+        </selectKey>
+        INSERT INTO VISITOR
+
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                ID,
+            </if>
+            <if test="visitorName!=null">
+                VISITOR_NAME,
+            </if>
+            <if test="visitorPassword!=null">
+                VISITOR_PASSWORD,
+            </if>
+            <if test="visitorAge!=null">
+                VISITOR_AGE,
+            </if>
+            <if test="visitorEmail!=null">
+                VISITOR_EMAIL,
+            </if>
+            <if test="visitorPhone!=null">
+                VISITOR_PHONE,
+            </if>
+            <if test="visitorTrueName!=null">
+                VISITOR_TRUE_NAME,
+            </if>
+            <if test="visitorAddress!=null">
+                VISITOR_ADDRESS,
+            </if>
+            <if test="visitorLoginTime!=null">
+                VISITOR_LOGIN_TIME,
+            </if>
+            <if test="visitorCreateTime!=null">
+                VISITOR_CREATE_TIME,
+            </if>
+
+            <if test="visitorModifiedTime!=null">
+                VISITOR_MODIFIED_TIME,
+            </if>
+        </trim>
+
+        <trim prefix=" VALUES (" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="visitorName!=null">
+                #{visitorName},
+            </if>
+            <if test="visitorPassword!=null">
+                #{visitorPassword},
+            </if>
+            <if test="visitorAge!=null">
+                #{visitorAge},
+            </if>
+            <if test="visitorEmail!=null">
+                #{visitorEmail},
+            </if>
+            <if test="visitorPhone!=null">
+                #{visitorPhone},
+            </if>
+            <if test="visitorTrueName!=null">
+                #{visitorTrueName},
+            </if>
+            <if test="visitorAddress!=null">
+                #{visitorAddress},
+            </if>
+            <if test="visitorLoginTime!=null">
+                #{visitorLoginTime},
+            </if>
+            <if test="visitorCreateTime!=null">
+                #{visitorCreateTime},
+            </if>
+
+            <if test="visitorModifiedTime!=null">
+                #{visitorModifiedTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateVisitor" parameterType="Visitor">
+        UPDATE   CAT.VISITOR
+        <set>
+            <if test="id!=null">
+                ID=#{id},
+            </if>
+            <if test="visitorName!=null">
+                VISITOR_NAME= #{visitorName},
+            </if>
+            <if test="customerPassword!=null">
+                VISITOR_PASSWORD= #{visitorPassword},
+            </if>
+            <if test="visitorAge!=null">
+                VISITOR_AGE= #{visitorAge},
+            </if>
+            <if test="customerEmail!=null">
+                VISITOR_EMAIL= #{visitorEmail},
+            </if>
+            <if test="customerPhone!=null">
+                VISITOR_PHONE =#{visitorPhone},
+            </if>
+            <if test="visitorTrueName!=null">
+                VISITOR_TRUE_NAME =#{visitorTrueName},
+            </if>
+            <if test="visitorAddress!=null">
+                VISITOR_ADDRESS =#{visitorAddress},
+            </if>
+            <if test="visitorLoginTime!=null">
+                VISITOR_LOGIN_TIME= #{visitorLoginTime},
+            </if>
+            <if test="visitorCreateTime!=null">
+                VISITOR_CREATE_TIME= #{visitorCreateTime},
+            </if>
+            <if test="visitorModifiedTime!=null">
+                VISITOR_MODIFIED_TIME= #{visitorModifiedTime},
+            </if>
+        </set>
+
+        <where>
+            <choose>
+                <when test="id!=null">
+                    AND   id=#{id}
+                </when>
+                <otherwise>
+                    AND 1=2
+                </otherwise>
+            </choose>
+        </where>
+    </update>
+
+    <delete id="deleteVisitor" parameterType="Visitor">
+        DELETE  FROM VISITOR
+        <include refid="checkId"></include>
+    </delete>
+
+
+    <sql id="queryVisitor">
+        SELECT * FROM VISITOR
+    </sql>
+
+    <select id="findVisitorByName" resultMap="visitorMap" parameterType="Visitor">
+        <include refid="queryVisitor"></include>
+        <where>
+            <choose>
+                <when test="visitorName!=null and  visitorPassword!=null">
+                    AND VISITOR_NAME=#{visitorName} AND VISITOR_PASSWORD=#{visitorPassword}
+                </when>
+                <otherwise>
+                    AND 1=2
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+</mapper>

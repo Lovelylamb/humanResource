@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/scripts/jquery-min.js"></script>
+    <script src="/scripts/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+<!--   <span class="btn btn-primary" onclick="window.location='/customer/hello'">欢迎</span>
+   <span class="btn btn-primary" onclick="window.location='/info/xiaohuang/18'">小黄的信息</span>-->
+
+
+
+    <div class="row">
+        <h1>用户登录</h1>
+    <form action="/customer/login" method="post"    class="form-horizontal" role="form" >
+        <div class="form-group">
+            <label for="firstname" class="col-sm-2 control-label">名字</label>
+            <div class="col-sm-5">
+                <input  name="customerName" type="text" class="form-control" id="firstname" placeholder="请输入名字">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="lastname" class="col-sm-2 control-label">密码</label>
+            <div class="col-sm-5">
+                <input name="customerPassword" type="password" class="form-control" id="lastname" placeholder="请输入密码">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2"></div>
+            <div class=" col-sm-5">
+                <div class="checkbox">
+                    <label>
+                        <input name="remember" type="checkbox">请记住我
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2"></div>
+            <div class=" col-sm-5">
+                <button type="submit" class="btn btn-primary btn-block">登录</button>
+            </div>
+        </div>
+    </form>
+
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <a href="/customer/register.view">注册</a>
+            <a href="/customer/forget.view">忘记密码</a>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>
